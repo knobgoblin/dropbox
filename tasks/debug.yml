@@ -1,0 +1,11 @@
+---
+- name: Set debug SonarQube variables
+  set_fact:
+    dropbox_systemd_service_directory: "{{ dropbox_debug_systemd_service_directory }}"
+    dropbox_user: "{{ dropbox_debug_user }}"
+    dropbox_group: "{{ dropbox_debug_group }}"
+
+- name: Add nobody group 
+  group:
+    name: nobody
+    state: present

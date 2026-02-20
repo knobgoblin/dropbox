@@ -1,0 +1,14 @@
+[Unit]
+Description=Dropbox System Daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/{{ dropbox_base_dir }}/.dropbox-dist/dropboxd
+Restart=always
+User={{ dropbox_user }}
+# Add environment variables if necessary
+# Environment=DROPBOX_USE_PROXY=...
+
+[Install]
+WantedBy=multi-user.target

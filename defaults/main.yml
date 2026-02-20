@@ -1,0 +1,17 @@
+---
+dropbox_installer_url: https://www.dropbox.com/download?plat=lnx.x86_64
+dropbox_repo_validate_certs: True
+
+# SonarQube Service definition
+
+dropbox_user: root
+dropbox_group: root
+dropbox_base_dir: /root
+dropbox_directory: "{{ dropbox_base_dir }}/Dropbox"
+dropbox_systemd_service_directory: /etc/systemd/system
+dropbox_systemd_service: dropbox
+
+dropbox_debug: False
+dropbox_debug_systemd_service_directory: /var/tmp/dropbox
+dropbox_debug_owner: nobody
+dropbox_debug_group: nobody

@@ -1,0 +1,52 @@
+---
+- name: Download Dropbox installer
+  get_url:
+    url: "{{ dropbox_installer_url }}"
+    dest: "{{ dropbox_base_dir }}/dropbox_installer.tar.gz"
+    mode: '0640'
+    validate_certs: "{{ dropbox_repo_validate_certs }}"
+  when: not dropbox_debug
+
+- name: Remove any extant Dropbox installation
+  file:
+    path: "{{ dropbox_base_dir }}/.dropbox-dist"
+    state: absent
+  when: not dropbox_debug
+
+- name: Uncompress Dropbox installer
+  unarchive:
+    src: "{{ dropbox_base_dir }}/dropbox_installer.tar.gz"
+    dest: "{{ dropbox_app_base_dir }}"
+    owner: "{{ dropbox_user }}"
+    group: "{{ dropbox_group }}"
+  when: not dropbox_debug
+
+- name: Set up Dropbox service
+  template:
+    src: dropbox.service.j2
+    dest: "{{ dropbox_systemd_service_directory }}/dropbox.service"
+    owner: "{{ dropbox_user }}"
+    group: "{{ dropbox_group }}"
+    mode: '0640'
+
+- name: Enable Dropbox
+  service:
+    name: dropbox
+    enabled: True
+  when: not dropbox_debug
+
+- name: Print info
+  debug:
+    msg:
+      - "==========================================================="
+      - ""
+      - "Dropbox is installed but not necessarily configured."
+      - ""
+      - "Check status using:"
+      - ""
+      - "    journalctl -f -u dropbox"
+      - ""
+      - "If the resulting log tells you to visit a URL, paste the"
+      - "provided link into your browser to complete installation."
+      - ""
+      - "==========================================================="
