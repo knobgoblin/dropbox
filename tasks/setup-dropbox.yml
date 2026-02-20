@@ -16,9 +16,15 @@
 - name: Uncompress Dropbox installer
   unarchive:
     src: "{{ dropbox_base_dir }}/dropbox_installer.tar.gz"
-    dest: "{{ dropbox_app_base_dir }}"
+    dest: "{{ dropbox_base_dir }}"
     owner: "{{ dropbox_user }}"
     group: "{{ dropbox_group }}"
+  when: not dropbox_debug
+
+- name: Remove Dropbox installer
+  file:
+    path: "{{ dropbox_base_dir }}/dropbox_installer.tar.gz"
+    state: absent
   when: not dropbox_debug
 
 - name: Set up Dropbox service
