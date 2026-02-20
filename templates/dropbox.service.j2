@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/{{ dropbox_base_dir }}/.dropbox-dist/dropboxd
+ExecStart={{ dropbox_base_dir }}/.dropbox-dist/dropboxd
 Restart=always
 User={{ dropbox_user }}
 # Add environment variables if necessary
