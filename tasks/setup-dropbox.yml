@@ -9,8 +9,11 @@
 
 - name: Remove any extant Dropbox installation
   file:
-    path: "{{ dropbox_base_dir }}/.dropbox-dist"
+    path: "{{ dropbox_base_dir }}/{{ item }}"
     state: absent
+  loop:
+    - .dropbox
+    - .dropbox-dist
   when: not dropbox_debug
 
 - name: Uncompress Dropbox installer
@@ -38,7 +41,9 @@
 - name: Enable Dropbox
   service:
     name: dropbox
+    state: started
     enabled: True
+    daemon_reload: True
   when: not dropbox_debug
 
 - name: Print info
